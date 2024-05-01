@@ -7,8 +7,8 @@ This will generate the desired subdirectories and generic source files required.
 
 """
 import os
-
-from mlib import data
+import argparse
+import sys
 
 
 def main() -> None:
@@ -19,12 +19,15 @@ def main() -> None:
             bones.py -new <name>
 
     """
-    directory = input("Enter the project name: ")
-    create_project(directory)
+    parser = argparse.ArgumentParser(description="Generate a Python project template.")
+    parser.add_argument("-new", type=str, help="Name of the project.")
 
-    # create a main.py file
+    args= parser.parse_args()
 
-    # do you need an __init__?
+    if args.new:
+        create_project(args.new)
+        create_main(args.new)
+        create_mlib(args.new)
 
 def create_project(project_directory: str) -> None:
         project_location = f"../{project_directory}"
@@ -41,12 +44,26 @@ def create_mlib(project_directory: str) -> None:
     except FileExistsError:
         print("mlib already exists.")
 
-def create_main():
+def create_main(project_directory: str):
     """
     Main should have 
     """
+    main_script = f"""
+    def main():
+        pass
+        
+    
+    if __name__ == "__main__":
+        main()
+    """
+
     try:
-        with open("main.py", "a") as raw_file:
-            raw_file.write(data.main)
-    except Exception:
-        print("Something went wrong writing main.py")
+        with open(f"{project_directory}/main.py", "a") as raw_file:
+            raw_file.write(main_script)
+    except Exception as e:
+        print(f"Something went wrong writing main.py: {e}")
+
+
+if __name__ == "__main__":
+    sys.path.append(os.path.dirname(__file__))
+    main()
