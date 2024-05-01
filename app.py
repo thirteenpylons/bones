@@ -23,7 +23,7 @@ def execute(args=None):
 
     parser = argparse.ArgumentParser(description="Generate a Python project template.")
     parser.add_argument("-n", "--new", type=str, help="Create a new python template for your project.")
-    parsed_args = parser.parse_args()
+    parsed_args, unknown_args = parser.parse_known_args(args)
 
     if not parsed_args.new:
         print("Project name required. Use -n <name> to specify.")
