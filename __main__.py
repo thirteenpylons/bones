@@ -2,4 +2,10 @@ import sys
 import app
 
 
-app.execute(sys.argv[1:])
+def main():
+
+    app.execute(sys.argv[1:])
+
+
+if __name__ == "__main__":
+    main()
